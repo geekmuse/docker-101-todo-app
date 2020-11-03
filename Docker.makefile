@@ -14,10 +14,10 @@ build-nc:		## Builds a local image (no cache).
 
 .PHONY: push
 push:			## Pushes the local image to the authenticated registry.
-    @docker push $(NS)/$(APP_NAME):$(VERSION)
+	@docker push $(NS)/$(APP_NAME):$(VERSION)
 
 .PHONY: release
-release: build-nc push		## Release an image, tagged with $VERSION
+release: build-nc push		## Release an image to registry, tagged with $VERSION.
 
 .PHONY: run
 run:			## Runs the image locally (make sure env vars are set appropriately).
@@ -26,7 +26,7 @@ run:			## Runs the image locally (make sure env vars are set appropriately).
 		-e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" \
 		-e "SNS_TOPIC_ARN_DEFAULT=${SNS_TOPIC}" \
 		-e "AWS_REGION=${AWS_REGION}" \
-		$(APP_NAME)
+		$(NS)/$(APP_NAME):$(VERSION)
 
 .PHONY: stop
 stop:			## Stops a running container.
