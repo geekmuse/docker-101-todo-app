@@ -1,7 +1,8 @@
 const db = require('../persistence');
 const uuid = require('uuid/v4');
 const pubsub = require('../pubsub');
-const topic = process.env.SNS_TOPIC_ARN_ADDITEM || process.env.SNS_TOPIC_ARN_DEFAULT;
+const topic =
+    process.env.SNS_TOPIC_ARN_ADDITEM || process.env.SNS_TOPIC_ARN_DEFAULT;
 
 module.exports = async (req, res) => {
     const item = {
