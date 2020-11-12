@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 101-todo-deployment
+  namespace: 101-todo
+  labels:
+    app: 101-todo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: 101-todo
+  template:
+    metadata:
+      labels:
+        app: 101-todo
+    spec:
+      containers:
+      - name: 101-todo
+        image: geekmuse/101-todo:latest
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: todos-db-storage
+          mountPath: /etc/todos
+        env:
+        - name: SNS_TOPIC_ARN_DEFAULT
+          value: __TOPIC__
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-creds
+              key: key_id
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-creds
+              key: secret_key
+        - name: AWS_REGION
+          value: us-east-1
+      volumes:
+      - name: todos-db-storage
+        persistentVolumeClaim:
+          claimName: todos-db-pvc

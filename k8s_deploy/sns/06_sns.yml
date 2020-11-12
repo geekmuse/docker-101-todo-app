@@ -1,0 +1,11 @@
+# https://doc.crds.dev/github.com/crossplane/provider-aws/notification.aws.crossplane.io/SNSTopic/v1alpha1
+apiVersion: notification.aws.crossplane.io/v1alpha1
+kind: SNSTopic
+metadata:
+  name: 101-todo-app
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    displayName: 101TodoApp
+    name: 101-todo-app
+    region: us-east-1
